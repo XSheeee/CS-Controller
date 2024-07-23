@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">CS-Controller</string>
+    <string name="hello">Hello</string>
+    <string name="first_info">
+        权限及其他声明 By XShe:
+        \nCS-Controller(下称本应用)，用于辅助调控MoWei所开发的CS调度(下称调度)模块。
+        \n由调度所使用的Apache2.0开源协议，本应用或包含一部分该模块源代码，在此特意声明(非必要)。
+        \n同时，本应用也通过GPL-3协议开源，因此对于本应用的改版、引用以及任何使用本应用源码的行为，都应标明原作者及出处。
+        \n项目开源地址:https://github.com/XSheeee/CS-Controller
+        \n本应用目前申请使用了对于手机内部文件的读写权限以及root权限，分别用于改变调度配置以及获取顶层应用。
+        \n使用本应用或许会导致你的手机出现无法启动、自动重启、黑屏、闪退、卡顿等bug，再次特意声明，可选择是否使用。
+        \n本应用图标生成自阿里-通义，本人仅稍作修改，特此声明。
+    </string>
+</resources>
