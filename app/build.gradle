@@ -10,8 +10,8 @@ android {
         applicationId "io.github.xsheeee.cs_controller"
         minSdk 29
         targetSdk 34
-        versionCode 1000
-        versionName "1.0"
+        versionCode 1001
+        versionName "1.0.0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -20,6 +20,7 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
     compileOptions {
@@ -29,6 +30,16 @@ android {
 }
 
 dependencies {
+    def libsuVersion = '6.0.0'
+
+    // The core module that provides APIs to a shell
+    implementation "com.github.topjohnwu.libsu:core:${libsuVersion}"
+
+    // Optional: APIs for creating root services. Depends on ":core"
+    implementation "com.github.topjohnwu.libsu:service:${libsuVersion}"
+
+    // Optional: Provides remote file system support
+    implementation "com.github.topjohnwu.libsu:nio:${libsuVersion}"
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.12.0'
