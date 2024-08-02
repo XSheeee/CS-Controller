@@ -3,59 +3,52 @@ package io.github.xsheeee.cs_controller;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import com.topjohnwu.superuser.Shell;
-
-import java.io.IOException;
-
-import io.github.xsheeee.cs_controller.Tools.MagiskHelper;
+import io.github.xsheeee.cs_controller.Tools.Logger;
+import io.github.xsheeee.cs_controller.Tools.SetOOM;
 import io.github.xsheeee.cs_controller.Tools.Tools;
+import io.github.xsheeee.cs_controller.Tools.Values;
 
 public class GuideActivity extends AppCompatActivity {
-    public static boolean isFirst = true;
+    private static final String FILE_PATH = "/storage/emulated/0/Android/CSController/infoSt.txt";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide);
-        Tools tools = new Tools(getApplicationContext());
-        try {
-            Process process = Runtime.getRuntime().exec("su");
-            try {
-                int exitCode = process.waitFor(); // 阻塞，等待命令执行结束
-                if (exitCode == 0) {
-                    //此时获取root权限成功
-                    MagiskHelper mhelper = new MagiskHelper();
-                    Shell.Result result = mhelper.runShellAndWaitWithResult("cat /sdcard/Android/CSContrller/infoSt");
-                    if (result.isSuccess()) {
-                        String content = result.getOut().isEmpty() ? null : result.getOut().get(0);
-                        boolean isContentOne = "1".equals(content.trim());
-                        if (isContentOne) {
-                            isFirst = false;
-                            Intent intent = new Intent(GuideActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                    } else {
-                        Intent intent = new Intent(GuideActivity.this, InfoActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                } else {
-                    Intent intent = new Intent(GuideActivity.this, InfoActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            } catch (InterruptedException e) {
-                Intent intent = new Intent(GuideActivity.this, InfoActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        } catch (IOException e) {
-            Intent intent = new Intent(GuideActivity.this, InfoActivity.class);
+
+
+//        readFileContent();
+        SetOOM.doit();
+        Logger.initLog();
+        Tools ts = new Tools(getApplicationContext());
+//        ts.showToast("01");
+        Logger.writeLog("Info", "fck u Google");
+//        ts.showToast("02");
+        //判断是否为第一次进入
+        SharedPreferences sharedPreferences = getSharedPreferences("share", MODE_PRIVATE);
+
+
+        //默认false
+        boolean isFirstRun = sharedPreferences.getBoolean("isFirstRun", false);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Values.isFirst = !isFirstRun;
+
+        if (!isFirstRun) {
+            Intent intent;
+            intent = new Intent(GuideActivity.this, InfoActivity.class);
             startActivity(intent);
-            finish();
+            finish(); // 关闭 GuideActivity
+        } else {
+            Intent intent;
+            intent = new Intent(GuideActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish(); // 关闭 GuideActivity
         }
+
     }
+
+
 }

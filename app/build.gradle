@@ -8,10 +8,10 @@ android {
 
     defaultConfig {
         applicationId "io.github.xsheeee.cs_controller"
-        minSdk 29
+        minSdk 30
         targetSdk 34
-        versionCode 1001
-        versionName "1.0.0.1"
+        versionCode 1002
+        versionName "1.0.0.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -28,13 +28,18 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
-
+android.applicationVariants.all {
+    variant ->
+        variant.outputs.all {
+            if (variant.buildType.name =='release')
+                outputFileName = "CS-Controller_v${versionName}.apk"
+        }
+}
 dependencies {
     def libsuVersion = '6.0.0'
 
     // The core module that provides APIs to a shell
     implementation "com.github.topjohnwu.libsu:core:${libsuVersion}"
-
     // Optional: APIs for creating root services. Depends on ":core"
     implementation "com.github.topjohnwu.libsu:service:${libsuVersion}"
 

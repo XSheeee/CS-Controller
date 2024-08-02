@@ -28,7 +28,6 @@ public class InfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //此时用户接受
-                tools.showToast("恭喜您可以开始使用本应用");
                 //打开主Activity
                 Intent intent = new Intent(InfoActivity.this, MainActivity.class);
                 startActivity(intent);
