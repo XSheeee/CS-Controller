@@ -31,4 +31,21 @@
             android:textStyle="italic" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center|top"
+        android:orientation="vertical">
+
+        <com.google.android.material.search.SearchView
+            android:id="@+id/sch_v"
+            android:layout_width="match_parent"
+            android:layout_height="43sp"
+            android:background="#878680"
+            app:queryHint="@string/search_idea"/>
+        <ListView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
 </LinearLayout>

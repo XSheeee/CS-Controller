@@ -19,5 +19,7 @@
 
     <string name="refuse">拒绝</string>
     <string name="accept">接受</string>
+    <string name="search_idea">在此处搜索应用</string>
+    <string name="search">在此处搜索\n</string>
 
 </resources>

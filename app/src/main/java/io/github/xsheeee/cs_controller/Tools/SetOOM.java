@@ -8,20 +8,9 @@ public class SetOOM {
     private static final String LOG_TAG = "OomAdjustment";
     private static final int OOM_ADJ_Value = -17;
 
-    public static void setOomScoreAdj(int pid) {
-        try {
-            // 执行 su 命令并调整 oom_score_adj
-            DataOutputStream os = new DataOutputStream(Runtime.getRuntime().exec("su").getOutputStream());
-            os.writeBytes("echo " + OOM_ADJ_Value + " > /proc/" + pid + "/oom_score_adj\n");
-            os.writeBytes("exit\n");
-            os.flush();
-
-            // 关闭输出流
-            os.close();
-        } catch (IOException e) {
-            // 处理异常
-            e.printStackTrace();
-        }
+    public static void setOomScoreAdj(int pid){
+        MagiskHelper mhelper = new MagiskHelper();
+        mhelper.runShellAndWait("su -c echo "+OOM_ADJ_Value+" > /proc/"+pid+"/oom_adj");
     }
 
     public static void doit() {
