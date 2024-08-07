@@ -9,52 +9,60 @@ import androidx.lifecycle.Lifecycle;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.SearchView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.xsheeee.cs_controller.Tools.AppListAdapter;
+import io.github.xsheeee.cs_controller.Tools.AppInfo;
+
 import io.github.xsheeee.cs_controller.Tools.MagiskHelper;
+import io.github.xsheeee.cs_controller.Tools.SetOOM;
 import io.github.xsheeee.cs_controller.Tools.Tools;
 import io.github.xsheeee.cs_controller.Tools.Values;
+
 import androidx.appcompat.widget.SearchView.OnQueryTextListener;
+
 public class MainActivity extends AppCompatActivity {
     private ListView listView;
-    private SearchView searchView;
-    private List<ApplicationInfo> applications = new ArrayList<>();
     private AppListAdapter adapter;
     private PackageManager pm;
+    private ListView lv_app;
+    private List<AppInfo> data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        SetOOM.doit();
         listView = findViewById(R.id.list_view);
 
-        pm = getPackageManager();
-        applications.addAll(getAllApplicationInfos());
-
-        adapter = new AppListAdapter(this, applications, pm);
+        data = getAllAppInfos();
+        adapter = new AppListAdapter();
+        //显示列表
         listView.setAdapter(adapter);
         Tools tools = new Tools(getApplicationContext());
-        // 初始化 SearchView
-        initializeSearchView();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ApplicationInfo appInfo = applications.get(position);
-                String packageName = appInfo.packageName;
+                AppInfo appInfo = data.get(position);
+                String packageName = appInfo.getPackageName();
                 // Handle click event here
             }
         });
@@ -62,78 +70,76 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void initializeSearchView() {
-        MenuHost menuHost = this;
-        menuHost.addMenuProvider(new MenuProvider() {
-            @Override
-            public void onCreateMenu(Menu menu, MenuInflater menuInflater) {
-                menuInflater.inflate(R.menu.main_menu, menu);
 
-                // 找到 SearchView 并设置监听器
-                MenuItem searchItem = menu.findItem(R.id.action_search);
-                SearchView searchView = (SearchView) searchItem.getActionView();
-                searchItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-                    @Override
-                    public boolean onMenuItemActionExpand(MenuItem item) {
-                        // 当 SearchView 展开时执行的操作
-                        return true;
-                    }
+    protected List<AppInfo> getAllAppInfos() {
 
-                    @Override
-                    public boolean onMenuItemActionCollapse(MenuItem item) {
-                        // 当 SearchView 折叠时执行的操作
-                        return true;
-                    }
-                });
-
-                // 设置查询文本监听器
-                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                    @Override
-                    public boolean onQueryTextSubmit(String query) {
-                        // 当用户提交查询时执行的操作
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onQueryTextChange(String newText) {
-                        // 当查询文本改变时进行过滤
-                        // 这里可以添加过滤逻辑
-                        return true;
-                    }
-                });
-            }
-
-            @Override
-            public boolean onMenuItemSelected(MenuItem menuItem) {
-                return false;
-            }
-        }, this, Lifecycle.State.RESUMED);
-    }
-
-    
-    private List<ApplicationInfo> getAllApplicationInfos() {
-        List<ApplicationInfo> list = new ArrayList<>();
-
-        List<ApplicationInfo> allApps = pm.getInstalledApplications(PackageManager.GET_META_DATA);
-        for (ApplicationInfo appInfo : allApps) {
-            if ((appInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0) { // Skip system apps
-                continue;
-            }
+        List<AppInfo> list = new ArrayList<AppInfo>();
+        // 得到应用的packgeManager
+        PackageManager packageManager = getPackageManager();
+        // 创建一个主界面的intent
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+        // 得到包含应用信息的列表
+        List<ResolveInfo> ResolveInfos = packageManager.queryIntentActivities(
+                intent, 0);
+        // 遍历
+        for (ResolveInfo ri : ResolveInfos) {
+            // 得到包名
+            String packageName = ri.activityInfo.packageName;
+            // 得到图标
+            Drawable icon = ri.loadIcon(packageManager);
+            // 得到应用名称
+            String appName = ri.loadLabel(packageManager).toString();
+            // 封装应用信息对象
+            AppInfo appInfo = new AppInfo(icon, appName, packageName);
+            // 添加到list
             list.add(appInfo);
         }
         return list;
     }
 
-    private void filterApplications(String text) {
-        List<ApplicationInfo> filteredList = new ArrayList<>();
-        for (ApplicationInfo appInfo : applications) {
-            if (appInfo.loadLabel(pm).toString().toLowerCase().contains(text.toLowerCase())) {
-                filteredList.add(appInfo);
-            }
+    class AppListAdapter extends BaseAdapter {
+
+
+        @Override
+        public int getCount() {
+            return data.size();
         }
-        applications.clear();
-        applications.addAll(filteredList);
-        adapter.notifyDataSetChanged();
+
+        @Override
+        public Object getItem(int position) {
+            return data.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            // TODO Auto-generated method stub
+            return 0;
+        }
+
+        //返回带数据当前行的Item视图对象
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            //1. 如果convertView是null, 加载item的布局文件
+            if (convertView == null) {
+                Log.e("TAG", "getView() load layout");
+                convertView = View.inflate(MainActivity.this, R.layout.app_info_layout, null);
+            }
+            //2. 得到当前行数据对象
+            AppInfo appInfo = data.get(position);
+            //3. 得到当前行需要更新的子View对象
+            ImageView imageView = (ImageView) convertView.findViewById(R.id.app_icon);
+            TextView textView = (TextView) convertView.findViewById(R.id.app_name);
+            TextView tv = (TextView) convertView.findViewById(R.id.pck_name);
+            //4. 给视图设置数据
+            imageView.setImageDrawable(appInfo.getIcon());
+            textView.setText(appInfo.getAppName());
+            tv.setText(appInfo.getPackageName());
+            //返回convertView
+            return convertView;
+        }
     }
 
 

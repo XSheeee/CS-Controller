@@ -18,12 +18,15 @@ public class GuideActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide);
-
-
-//        readFileContent();
-        SetOOM.doit();
-        Logger.initLog();
         Tools ts = new Tools(getApplicationContext());
+        ts.showToast(String.valueOf(android.os.Process.myPid()));
+        if(!ts.getSU())finish();
+//        readFileContent();
+//        ts.showToast(SetOOM.doit()?"true":"false");
+        SetOOM.doit();
+        ts.showToast(String.valueOf(android.os.Process.myPid()));
+        Logger.initLog();
+
 //        ts.showToast("01");
         Logger.writeLog("Info", "fck u Google");
 //        ts.showToast("02");

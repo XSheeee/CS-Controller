@@ -13,6 +13,8 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.topjohnwu.superuser.Shell;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -33,5 +35,13 @@ public class Tools {
         makeText.show();
     }
 
+    public boolean getSU(){
+        MagiskHelper mhelper = new MagiskHelper();
+        Shell.Result result = mhelper.runShellAndWaitWithResult("su");
+        if(!result.isSuccess()){
+            return false;
+        }
+        return true;
+    }
 }
 

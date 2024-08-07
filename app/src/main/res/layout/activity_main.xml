@@ -8,6 +8,7 @@
     tools:context=".MainActivity">
 
     <LinearLayout
+        android:background="#46632C"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="left|center_vertical"
@@ -26,23 +27,18 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/app_name"
-            android:textColor="@color/black"
+            android:textColor="#74D362"
             android:textSize="30sp"
             android:textStyle="italic" />
     </LinearLayout>
 
     <LinearLayout
+        android:background="#74D362"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center|top"
         android:orientation="vertical">
 
-        <com.google.android.material.search.SearchView
-            android:id="@+id/sch_v"
-            android:layout_width="match_parent"
-            android:layout_height="43sp"
-            android:background="#878680"
-            app:queryHint="@string/search_idea"/>
         <ListView
             android:id="@+id/list_view"
             android:layout_width="match_parent"
