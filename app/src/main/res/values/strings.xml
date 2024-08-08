@@ -24,6 +24,8 @@
 
     <string name="go_back"> <![CDATA[<—]]></string>
 
+    <string name="select_mode">模式选择</string>
+
     <string name="app_list_title">APP单独配置</string>
 
     <string name="string_powersave_mode">省电模式</string>
@@ -33,4 +35,11 @@
     <string name="string_super_powersave_mode">超级省电</string>
 
     <string name="string_app_list_config">配置应用</string>
+    <string-array name="modes">
+        <item>powersave</item>
+        <item>balance</item>
+        <item>performance</item>
+        <item>fast</item>
+        <item>super_powersave</item>
+    </string-array>
 </resources>

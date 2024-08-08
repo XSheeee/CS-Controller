@@ -25,7 +25,7 @@ public class GuideActivity extends AppCompatActivity {
 //        ts.showToast(SetOOM.doit()?"true":"false");
         SetOOM.doit();
         ts.showToast(String.valueOf(android.os.Process.myPid()));
-        Logger.initLog();
+        ts.init();
 
 //        ts.showToast("01");
         Logger.writeLog("Info", "fck u Google");

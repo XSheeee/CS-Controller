@@ -55,8 +55,12 @@ public class AppListActivity extends AppCompatActivity {
                 String packageName = appInfo.getPackageName();
                 String appName = appInfo.getAppName();
                 // Handle click event here
-                tools.showToast(appName + ":" +
-                        "" + packageName);
+//                tools.showToast(appName + ":" +
+//                        "" + packageName);
+                Intent intent=new Intent(AppListActivity.this, AppConfigActivity.class);
+                intent.putExtra("aName",appName);
+                intent.putExtra("pName",packageName);
+                startActivity(intent);
             }
         });
     }

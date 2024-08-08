@@ -12,5 +12,6 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:ignore="NewApi">@android:color/transparent</item>
         <!-- Customize your theme here. -->
+        <item name="android:windowFullscreen">true</item>
     </style>
 </resources>
