@@ -16,11 +16,14 @@ import androidx.core.content.ContextCompat;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class Tools {
     private static final int REQUEST_READ_EXTERNAL_STORAGE_PERMISSION = 1;
@@ -39,10 +42,7 @@ public class Tools {
 
     public boolean getSU() {
         Shell.Result result = mhelper.runShellAndWaitWithResult("su");
-        if (!result.isSuccess()) {
-            return false;
-        }
-        return true;
+        return result.isSuccess();
     }
 
     private static final String CS_CONFIG_PATH = Values.CSConfigPath; // 假设这个路径已经在Values类中定义
@@ -71,18 +71,13 @@ public class Tools {
     }
 
     private void writeToFile(String filePath, String content) {
-        try {
-            // 清空文件
-            File file = new File(filePath);
-            FileWriter writer = new FileWriter(file);
-            writer.write(""); // 清空文件
-
-            // 写入新的内容
-            writer.write(content);
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        Shell.cmd("echo > "+filePath).exec();
+        Shell.Result result = Shell.cmd("echo "+content+" > "+filePath).exec();
+        if(result.isSuccess()){
+            showToast("成功写入"+content);
+        }else{
+            showToast("失败");
+            Logger.writeLog("Error","失败:"+result.getOut()+" 和 "+result.getErr());
         }
     }
 }
-
