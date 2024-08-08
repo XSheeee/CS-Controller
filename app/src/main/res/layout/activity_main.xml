@@ -8,10 +8,10 @@
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:background="#46632C"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="left|center_vertical"
+        android:background="#46632C"
         android:orientation="horizontal"
         tools:ignore="RtlHardcoded">
 
@@ -33,15 +33,77 @@
     </LinearLayout>
 
     <LinearLayout
-        android:background="#74D362"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center|top"
+        android:layout_gravity="center"
+        android:background="#74D362"
+        android:gravity="center"
         android:orientation="vertical">
 
-        <ListView
-            android:id="@+id/list_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        <GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:rowCount="3">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/powersave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="11sp"
+                android:backgroundTint="#46632c"
+                android:text="@string/string_powersave_mode"
+                android:textColor="#74D362"
+                android:textSize="22sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/balance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="11sp"
+                android:backgroundTint="#46632c"
+                android:text="@string/string_balance_mode"
+                android:textColor="#74D362"
+                android:textSize="22sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/performance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="11sp"
+                android:backgroundTint="#46632c"
+                android:text="@string/string_performance_mode"
+                android:textColor="#74D362"
+                android:textSize="22sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/fast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="11sp"
+                android:backgroundTint="#46632c"
+                android:text="@string/string_fast_mode"
+                android:textColor="#74D362"
+                android:textSize="22sp" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/super_powersave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="11sp"
+                android:backgroundTint="#46632c"
+                android:text="@string/string_super_powersave_mode"
+                android:textColor="#74D362"
+                android:textSize="22sp" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/go_app_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="11sp"
+                android:backgroundTint="#46632c"
+                android:text="@string/string_app_list_config"
+                android:textColor="#74D362"
+                android:textSize="22sp" />
+        </GridLayout>
+
     </LinearLayout>
 </LinearLayout>

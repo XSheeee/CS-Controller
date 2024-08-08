@@ -22,4 +22,15 @@
     <string name="search_idea">在此处搜索应用</string>
     <string name="search">在此处搜索\n</string>
 
+    <string name="go_back"> <![CDATA[<—]]></string>
+
+    <string name="app_list_title">APP单独配置</string>
+
+    <string name="string_powersave_mode">省电模式</string>
+    <string name="string_balance_mode">均衡模式</string>
+    <string name="string_performance_mode">性能模式</string>
+    <string name="string_fast_mode">极速模式</string>
+    <string name="string_super_powersave_mode">超级省电</string>
+
+    <string name="string_app_list_config">配置应用</string>
 </resources>
