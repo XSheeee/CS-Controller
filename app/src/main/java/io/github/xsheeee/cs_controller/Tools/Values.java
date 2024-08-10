@@ -72,7 +72,7 @@ public class Values {
             }
 
             String data = dataBuilder.toString();
-            Shell.cmd("echo \"" + data + "\" > " + filePaths.get(i)); // 使用双引号包围 data
+            Shell.cmd("echo \"" + data + "\" > " + filePaths.get(i)).exec(); // 使用双引号包围 data
         }
     }
 }

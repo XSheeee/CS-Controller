@@ -28,6 +28,10 @@
 
     <string name="app_list_title">APP单独配置</string>
 
+    <string name="about_and_support">关于与捐赠</string>
+    <string name="jz_MW">给魔威(CS调度作者，A0后台保活作者，FreezeitLambda等项目维护者)的捐赠</string>
+    <string name="jz_XS">给XShe(CS调度管理器作者，IceFreezer(真的没被毙掉?),FreezeitLambda(真的还有关注?)等项目维护者)的捐赠</string>
+
     <string name="string_powersave_mode">省电模式</string>
     <string name="string_balance_mode">均衡模式</string>
     <string name="string_performance_mode">性能模式</string>

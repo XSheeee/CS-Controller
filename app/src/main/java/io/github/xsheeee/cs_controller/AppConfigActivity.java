@@ -10,6 +10,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.topjohnwu.superuser.Shell;
+import com.topjohnwu.superuser.ipc.RootService;
+
 import java.util.List;
 
 import io.github.xsheeee.cs_controller.Tools.Values;
@@ -17,13 +20,12 @@ import io.github.xsheeee.cs_controller.Tools.Values;
 public class AppConfigActivity extends AppCompatActivity {
     private ArrayAdapter<CharSequence> adapter;
     private Spinner spinner;
-    private int ii;
+    private int defaultPosition = -1; // 初始化为 -1 表示未找到
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_config);
-
         // 初始化 backButton
         TextView back = findViewById(R.id.backButton2);
         back.setOnClickListener(new View.OnClickListener() {
@@ -50,37 +52,28 @@ public class AppConfigActivity extends AppCompatActivity {
 
         // 设置 Adapter 到 Spinner
         spinner.setAdapter(adapter);
+
+        // 更新列表
         Values.updateLists();
 
-        // 默认显示
-        for (int i = 0; i < Values.lists.size(); i++) { // 使用 '<' 而不是 '<='
-            if (Values.lists.get(i).contains(pName)) {
-                ii = i;
-                break;
-            }
-        }
+        // 查找默认项
+        findDefaultPosition(pName);
 
         // 设置默认的 Spinner 项
-        setDefaultSpinnerItem(ii);
+        setDefaultSpinnerItem(defaultPosition);
 
         // 设置 Spinner 的 OnItemSelectedListener
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // 如果已经在当前列表中，则直接返回
-                if (Values.lists.get(position).contains(pName)) {
+                if (position == defaultPosition) {
                     return;
                 }
 
                 // 从旧列表移除并添加到新列表
-                for (int i = 0; i < Values.lists.size(); i++) {
-                    if (Values.lists.get(i).contains(pName)) {
-                        Values.lists.get(i).remove(pName);
-                        break;
-                    }
-                }
+                removeAndAddToNewList(pName, position);
 
-                Values.lists.get(position).add(pName);
                 Values.toUpdateLists();
             }
 
@@ -91,7 +84,32 @@ public class AppConfigActivity extends AppCompatActivity {
         });
     }
 
+    private void findDefaultPosition(String pName) {
+        for (int i = 0; i < Values.lists.size(); i++) {
+            if (Values.lists.get(i).contains(pName)) {
+                defaultPosition = i;
+                break;
+            }
+        }
+        if (defaultPosition == -1) {
+            defaultPosition = 1; // 如果没有找到，设置为 1
+        }
+    }
+
     private void setDefaultSpinnerItem(int defaultItem) {
         spinner.setSelection(defaultItem); // 设置默认的 Spinner 项
+    }
+
+    private void removeAndAddToNewList(String pName, int newPosition) {
+        // 从旧列表移除
+        for (int i = 0; i < Values.lists.size(); i++) {
+            if (Values.lists.get(i).contains(pName)) {
+                Values.lists.get(i).remove(pName);
+                break;
+            }
+        }
+
+        // 添加到新列表
+        Values.lists.get(newPosition).add(pName);
     }
 }
