@@ -1,68 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".AppConfigActivity">
+<LinearLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_height="match_parent"
+     android:layout_width="match_parent"
+     android:orientation="vertical"
+     android:fitsSystemWindows="true"
+     tools:context=".AppConfigActivity">
+    
+ <LinearLayout
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:gravity="center_vertical"
+         android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:background="#46632C"
-        android:gravity="left"
-        android:orientation="horizontal">
+       <ImageView
+             android:layout_height="48dp"
+             android:layout_width="48dp"
+             android:src="@drawable/ic_back"
+             android:contentDescription="@string/go_back"
+             android:id="@+id/backButton2"
+             android:layout_gravity="center_vertical" />
 
         <TextView
-            android:id="@+id/backButton2"
-            android:layout_width="0sp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/go_back"
-            android:textColor="#74D362"
-            android:textSize="20sp" />
+             android:layout_height="wrap_content"
+             android:layout_width="0dp"
+             android:gravity="center"
+             android:textAlignment="center"
+             android:textSize="20sp"
+             android:textColor="?attr/colorOnSecondaryContainer"
+             android:layout_weight="1"
+             android:text="@string/app_list_title"
+             android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="0sp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:text="@string/app_list_title"
-            android:textColor="#74D362"
-            android:textSize="20sp"
-            android:textStyle="italic" />
+        <View
+             android:layout_height="48dp"
+             android:layout_width="48dp"
+             android:layout_gravity="center_vertical" />
+
+
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="top|center"
-        android:background="#74D362"
-        android:gravity="top|center"
-        android:orientation="vertical">
+    <androidx.cardview.widget.CardView
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:layout_margin="16dp"
+         app:cardElevation="0dp"
+         app:cardCornerRadius="16dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="horizontal">
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             android:background="?attr/colorSecondaryContainer"
+             android:padding="16dp"
+             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="0sp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/select_mode"
-                android:textColor="#46632C"
-                android:textSize="27sp" />
+            <LinearLayout
+                 android:layout_height="wrap_content"
+                 android:layout_width="match_parent"
+                 android:gravity="center"
+                 android:orientation="horizontal">
 
-            <Spinner
-                android:id="@+id/spinner"
-                android:layout_width="0sp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                <TextView
+                     android:layout_height="wrap_content"
+                     android:layout_width="0dp"
+                     android:textSize="27sp"
+                     android:textColor="?attr/colorOnSecondaryContainer"
+                     android:layout_weight="1"
+                     android:text="@string/select_mode" />
+
+                <Spinner
+                     android:layout_height="wrap_content"
+                     android:layout_width="0dp"
+                     android:layout_weight="1"
+                     android:id="@+id/spinner">
+
+                </Spinner>
+
+            </LinearLayout>
+
         </LinearLayout>
-    </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
 </LinearLayout>

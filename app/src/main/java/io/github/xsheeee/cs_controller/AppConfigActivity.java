@@ -1,14 +1,13 @@
 package io.github.xsheeee.cs_controller;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView; // 修改为 ImageView
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.topjohnwu.superuser.Shell;
 import com.topjohnwu.superuser.ipc.RootService;
@@ -26,8 +25,9 @@ public class AppConfigActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_config);
+
         // 初始化 backButton
-        TextView back = findViewById(R.id.backButton2);
+        ImageView back = findViewById(R.id.backButton2);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +73,6 @@ public class AppConfigActivity extends AppCompatActivity {
 
                 // 从旧列表移除并添加到新列表
                 removeAndAddToNewList(pName, position);
-
                 Values.toUpdateLists();
             }
 

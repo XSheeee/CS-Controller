@@ -39,6 +39,8 @@
     <string name="string_super_powersave_mode">超级省电</string>
 
     <string name="string_app_list_config">配置应用</string>
+    <string name="icon_description">这是一个图标的描述</string>
+
     <string-array name="modes">
         <item>powersave</item>
         <item>balance</item>
