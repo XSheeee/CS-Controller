@@ -1,0 +1,8 @@
+<resources>
+    <string-array name="select_mode">
+        <item>@string/string_powersave_mode</item>
+        <item>@string/string_balance_mode</item>
+        <item>@string/string_performance_mode</item>
+        <item>@string/string_fast_mode</item>
+    </string-array>
+</resources>

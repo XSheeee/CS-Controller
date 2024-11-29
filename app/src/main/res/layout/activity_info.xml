@@ -9,15 +9,13 @@
      android:fitsSystemWindows="true"
      tools:context=".InfoActivity">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
          android:layout_height="wrap_content"
          android:layout_width="match_parent"
-         android:layout_marginEnd="15dp"
-         app:cardElevation="0dp"
+         android:layout_marginEnd="16dp"
          app:cardBackgroundColor="?attr/colorSecondaryContainer"
-         android:layout_marginTop="10dp"
-         android:layout_marginStart="15dp"
-         app:cardCornerRadius="16dp">
+         style="@style/Widget.Material3.CardView.Elevated"
+         android:layout_marginStart="16dp">
 
         <LinearLayout
              android:layout_height="wrap_content"
@@ -26,12 +24,10 @@
              android:padding="16dp"
              android:orientation="horizontal">
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                  android:layout_height="50dp"
                  android:layout_width="50dp"
                  android:layout_marginEnd="16dp"
-                 app:cardElevation="0dp"
-                 app:cardBackgroundColor="?attr/colorSecondaryContainer"
                  app:cardCornerRadius="10dp">
 
                 <ImageView
@@ -41,20 +37,18 @@
                      android:scaleType="centerCrop"
                      android:id="@+id/main_logo" />
 
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                  android:layout_height="wrap_content"
-                 android:layout_width="match_parent"
-                 android:gravity="center"
+                 android:layout_width="wrap_content"
                  android:textSize="30sp"
-                 android:textColor="?attr/colorOnSecondaryContainer"
-                 android:text="@string/app_name"
-                 android:textStyle="italic|bold" />
+                 android:textStyle="italic|bold"
+                 android:text="@string/app_name" />
 
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
     <ScrollView
          android:layout_height="0dp"
@@ -66,15 +60,11 @@
              android:layout_width="match_parent"
              android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                  android:layout_height="wrap_content"
                  android:layout_width="match_parent"
-                 android:layout_marginEnd="15dp"
-                 app:cardElevation="0dp"
-                 app:cardBackgroundColor="?attr/colorSecondaryContainer"
-                 android:layout_marginTop="10dp"
-                 android:layout_marginStart="15dp"
-                 app:cardCornerRadius="16dp">
+                 android:layout_margin="16dp"
+                 style="@style/Widget.Material3.CardView.Elevated">
 
                 <LinearLayout
                      android:layout_height="wrap_content"
@@ -82,43 +72,33 @@
                      android:padding="20dp"
                      android:orientation="vertical">
 
-                    <LinearLayout
+                    <TextView
                          android:layout_height="wrap_content"
                          android:layout_width="match_parent"
-                         android:orientation="horizontal">
+                         android:gravity="center"
+                         android:textSize="16sp"
+                         android:text="@string/info_f" />
 
-                        <TextView
-                             android:layout_height="wrap_content"
-                             android:layout_width="0dp"
-                             android:gravity="start"
-                             android:textSize="12sp"
-                             android:textColor="?attr/colorOnSecondaryContainer"
-                             android:layout_weight="1"
-                             android:text="@string/info_f" />
-
-                        <TextView
-                             android:layout_height="wrap_content"
-                             android:layout_width="0dp"
-                             android:gravity="center"
-                             android:textSize="16sp"
-                             android:textColor="@color/purple_200"
-                             android:layout_weight="1"
-                             android:text="@string/author"
-                             android:textStyle="italic|bold" />
-
-                    </LinearLayout>
+                    <TextView
+                         android:layout_height="wrap_content"
+                         android:layout_width="match_parent"
+                         android:paddingEnd="16dp"
+                         android:gravity="center"
+                         android:textSize="16sp"
+                         android:textColor="@color/purple_200"
+                         android:textStyle="italic|bold"
+                         android:text="@string/author" />
 
                     <TextView
                          android:layout_height="wrap_content"
                          android:layout_width="match_parent"
                          android:textSize="17sp"
-                         android:textColor="?attr/colorOnSecondaryContainer"
-                         android:text="@string/first_info"
-                         android:textStyle="italic" />
+                         android:textStyle="italic"
+                         android:text="@string/first_info" />
 
                 </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
 
@@ -129,8 +109,7 @@
          android:layout_width="match_parent"
          android:layout_marginBottom="30dp"
          android:gravity="center"
-         android:orientation="horizontal"
-         android:paddingTop="10dp">
+         android:orientation="horizontal">
 
         <com.google.android.material.button.MaterialButton
              android:layout_height="60dp"

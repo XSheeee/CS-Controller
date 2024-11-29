@@ -1,134 +1,270 @@
 package io.github.xsheeee.cs_controller;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.LruCache;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
+import androidx.appcompat.widget.Toolbar;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 import io.github.xsheeee.cs_controller.Tools.AppInfo;
-import io.github.xsheeee.cs_controller.Tools.Logger;
-import io.github.xsheeee.cs_controller.Tools.Tools;
 
 public class AppListActivity extends AppCompatActivity {
-    private ListView listView;
+    private RecyclerView recyclerView;
+    private List<AppInfo> data = new ArrayList<>();
+    private List<AppInfo> filteredData = new ArrayList<>();
+    private FrameLayout loadingView;
+    private PackageManager packageManager;
     private AppListAdapter adapter;
-    private PackageManager pm;
-    private List<AppInfo> data;
+    private ExecutorService executorService;
+    private LruCache<String, WeakReference<Drawable>> iconCache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_list);
 
-        // 初始化ListView
-        listView = findViewById(R.id.list_view);
+        // 初始化组件
+        recyclerView = findViewById(R.id.recycler_view);
+        loadingView = findViewById(R.id.loading_view);
+        packageManager = getPackageManager();
+        executorService = Executors.newFixedThreadPool(4);
 
-        // 获取所有应用信息
-        data = getAllAppInfos();
+        // 初始化图标缓存
+        final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+        final int cacheSize = maxMemory / 8;
+        iconCache = new LruCache<>(cacheSize);
+
+        // 设置 Toolbar
+        Toolbar toolbar = findViewById(R.id.backButton);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(v -> finish());
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new AppListAdapter();
-        listView.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
 
-        // 工具类实例化
-        Tools tools = new Tools(getApplicationContext());
+        // 加载应用信息
+        loadAppInfos();
+    }
 
-        // 获取backButton并设置点击事件
-        ImageView back = findViewById(R.id.backButton);
-        back.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.top_app_bar, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setQueryHint(getString(R.string.search_text));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onClick(View v) {
-                finish();
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filter(newText);
+                return true;
             }
         });
 
-        // 列表项点击事件
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                AppInfo appInfo = data.get(position);
-                String packageName = appInfo.getPackageName();
-                String appName = appInfo.getAppName();
-                // 跳转到 AppConfigActivity 并传递数据
-                Intent intent = new Intent(AppListActivity.this, AppConfigActivity.class);
-                intent.putExtra("aName", appName);
-                intent.putExtra("pName", packageName);
-                startActivity(intent);
-            }
+        return true;
+    }
+
+    private void filter(String text) {
+        String lowerCaseText = text.toLowerCase();
+        List<AppInfo> newFilteredData = data.stream()
+            .filter(appInfo -> appInfo.getAppName().toLowerCase().contains(lowerCaseText) || 
+                              appInfo.getPackageName().toLowerCase().contains(lowerCaseText))
+            .collect(Collectors.toList());
+
+        updateAdapterData(newFilteredData);
+    }
+
+    private void updateAdapterData(List<AppInfo> newFilteredData) {
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffCallback(filteredData, newFilteredData));
+        filteredData.clear();
+        filteredData.addAll(newFilteredData);
+        diffResult.dispatchUpdatesTo(adapter);
+    }
+
+    private void loadAppInfos() {
+        loadingView.setVisibility(View.VISIBLE);
+        executorService.execute(() -> {
+            List<AppInfo> loadedData = getAllAppInfos();
+            runOnUiThread(() -> {
+                updateAppData(loadedData);
+                loadingView.setVisibility(View.GONE);
+            });
         });
     }
 
-    // 获取所有已安装的应用信息
+    private void updateAppData(List<AppInfo> loadedData) {
+        data.clear();
+        data.addAll(loadedData);
+        filteredData.clear();
+        filteredData.addAll(data);
+        adapter.notifyDataSetChanged();
+        loadIcons();
+    }
+
     protected List<AppInfo> getAllAppInfos() {
         List<AppInfo> list = new ArrayList<>();
-        PackageManager packageManager = getPackageManager();
-
-        // 创建主界面的 Intent
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
-
-        // 获取应用列表
         List<ResolveInfo> resolveInfos = packageManager.queryIntentActivities(intent, 0);
 
-        // 遍历应用信息
         for (ResolveInfo ri : resolveInfos) {
             String packageName = ri.activityInfo.packageName;
-            Drawable icon = ri.loadIcon(packageManager);
             String appName = ri.loadLabel(packageManager).toString();
-            AppInfo appInfo = new AppInfo(icon, appName, packageName);
-            list.add(appInfo);
+            list.add(new AppInfo(null, appName, packageName));
         }
-
         return list;
     }
 
-    // 自定义适配器类
-    class AppListAdapter extends BaseAdapter {
-        @Override
-        public int getCount() {
-            return data.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return data.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                Logger.writeLog("Info", "getView() load layout");
-                convertView = View.inflate(AppListActivity.this, R.layout.app_info_layout, null);
+    private void loadIcons() {
+        recyclerView.getViewTreeObserver().addOnScrollChangedListener(() -> {
+            for (int i = 0; i < recyclerView.getChildCount(); i++) {
+                View view = recyclerView.getChildAt(i);
+                int position = recyclerView.getChildAdapterPosition(view);
+                if (position != RecyclerView.NO_POSITION) {
+                    AppInfo appInfo = filteredData.get(position);
+                    if (appInfo.getIcon() == null) {
+                        loadIconAsync(appInfo);
+                    }
+                }
             }
+        });
 
-            // 获取应用信息并更新视图
-            AppInfo appInfo = data.get(position);
-            ImageView imageView = convertView.findViewById(R.id.app_icon);
-            TextView textView = convertView.findViewById(R.id.app_name);
-            TextView tv = convertView.findViewById(R.id.pck_name);
+        // Immediately load existing icons
+        for (AppInfo appInfo : filteredData) {
+            WeakReference<Drawable> cachedIconRef = iconCache.get(appInfo.getPackageName());
+            if (cachedIconRef != null) {
+                Drawable cachedIcon = cachedIconRef.get();
+                if (cachedIcon != null) {
+                    appInfo.setIcon(cachedIcon);
+                }
+            }
+        }
+    }
 
-            // 设置应用信息
-            imageView.setImageDrawable(appInfo.getIcon());
-            textView.setText(appInfo.getAppName());
-            tv.setText(appInfo.getPackageName());
+    private void loadIconAsync(AppInfo appInfo) {
+        WeakReference<Drawable> cachedIconRef = iconCache.get(appInfo.getPackageName());
+        if (cachedIconRef != null) {
+            Drawable cachedIcon = cachedIconRef.get();
+            if (cachedIcon != null) {
+                appInfo.setIcon(cachedIcon);
+                runOnUiThread(() -> adapter.notifyItemChanged(filteredData.indexOf(appInfo), 0));
+                return;
+            }
+        }
 
-            return convertView;
+        executorService.execute(() -> {
+            try {
+                Drawable icon = packageManager.getApplicationIcon(appInfo.getPackageName());
+                appInfo.setIcon(icon);
+                iconCache.put(appInfo.getPackageName(), new WeakReference<>(icon));
+                runOnUiThread(() -> adapter.notifyItemChanged(filteredData.indexOf(appInfo), 0));
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+                appInfo.setIcon(null);
+            }
+        });
+    }
+
+    class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHolder> {
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.app_info_layout, parent, false);
+            return new ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            AppInfo appInfo = filteredData.get(position);
+            holder.imageView.setImageDrawable(appInfo.getIcon());
+            holder.textView.setText(appInfo.getAppName());
+            holder.packageNameView.setText(appInfo.getPackageName());
+            holder.itemView.setOnClickListener(v -> {
+                Intent intent = new Intent(AppListActivity.this, AppConfigActivity.class);
+                intent.putExtra("aName", appInfo.getAppName());
+                intent.putExtra("pName", appInfo.getPackageName());
+                startActivity(intent);
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return filteredData.size();
+        }
+
+        class ViewHolder extends RecyclerView.ViewHolder {
+            ImageView imageView;
+            TextView textView;
+            TextView packageNameView;
+
+            ViewHolder(View itemView) {
+                super(itemView);
+                imageView = itemView.findViewById(R.id.app_icon);
+                textView = itemView.findViewById(R.id.app_name);
+                packageNameView = itemView.findViewById(R.id.pck_name); // 初始化 packageNameView
+            }
+        }
+    }
+
+    static class DiffCallback extends DiffUtil.Callback {
+        private final List<AppInfo> oldList;
+        private final List<AppInfo> newList;
+
+        DiffCallback(List<AppInfo> oldList, List<AppInfo> newList) {
+            this.oldList = oldList;
+            this.newList = newList;
+        }
+
+        @Override
+        public int getOldListSize() {
+            return oldList.size();
+        }
+
+        @Override
+        public int getNewListSize() {
+            return newList.size();
+        }
+
+        @Override
+        public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+            return oldList.get(oldItemPosition).getPackageName().equals(newList.get(newItemPosition).getPackageName());
+        }
+
+        @Override
+        public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+            AppInfo oldItem = oldList.get(oldItemPosition);
+            AppInfo newItem = newList.get(newItemPosition);
+            return oldItem.getAppName().equals(newItem.getAppName()) &&
+                    oldItem.getIcon() == newItem.getIcon();
         }
     }
 }

@@ -14,7 +14,7 @@ public class InfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        // 使用 SharedPreferences 检查用户是否已接受
+        // 检查用户是否已接受
         SharedPreferences preferences = getSharedPreferences("AppPreferences", MODE_PRIVATE);
         boolean hasAccepted = preferences.getBoolean("hasAccepted", false);
         
@@ -23,7 +23,7 @@ public class InfoActivity extends AppCompatActivity {
             Intent intent = new Intent(InfoActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
-            return; // 结束当前活动
+            return;
         }
 
         setContentView(R.layout.activity_info);
@@ -53,7 +53,7 @@ public class InfoActivity extends AppCompatActivity {
         refuseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tools.showToast("不同意将退出应用");
+                tools.showErrorToast("不同意将退出应用");
                 finish();
             }
         });
