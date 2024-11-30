@@ -37,8 +37,46 @@
     <string name="string_performance_mode">性能模式</string>
     <string name="string_fast_mode">极速模式</string>
     <string name="string_super_powersave_mode">超级省电</string>
-
     <string name="string_app_list_config">配置应用</string>
+
+    <string name="about_mw_cpuspeedcontroller">CS调度</string>
+    <string name="about_cs_ontroller">CS-Controller</string>
+    <string name="cs_version">版本：</string>
+    <string name="cs_work">运行状态：</string>
+    <string name="now_mode">模式：</string>
+    <string name="cs_work_true">工作中</string>
+    <string name="cs_work_false">未运行</string>
+    <string name="read_mode_error">无法读取配置文件</string>
+    <string name="read_version_error">"无法读取版本信息"</string>
+
+    <string name="view_source_code">在 GitHub 查看源码</string>
+    <string name="xshe_github">查看开发者的 GitHub 主页</string>
+    <string name="cs_source_code">在 GitHub 查看源码</string>
+    <string name="mowei_github">查看开发者的 GitHub 主页</string>
+    <string name="url_xshe_source">https://github.com/XSheeee/CS-Controller</string>
+    <string name="url_xshe_github">https://github.com/XSheeee</string>
+    <string name="url_mowei_source">https://github.com/MoWei-2077/CPU-speed-controller</string>
+    <string name="url_mowei_github">https://github.com/Mowei-2077</string>
+    <string name="module_log">模块日志</string>
+    <string name="settings">设置</string>
+    <string name="root_warning">请授予ROOT权限</string>
+    
+    <string name="enable_feas">启用Feas</string>
+    <string name="disable_qcom_gpuboost">关闭高通GPUBoost</string>
+    <string name="core_allocation">开启核心绑定</string>
+    <string name="load_balancing">开启负载均衡</string>
+    <string name="disable_ufs_clock_gate">禁用UFS时钟门</string>
+    <string name="touch_boost">开启触摸升频</string>
+    <string name="cfs_scheduler">CFS调度器</string>
+    <string name="dynamic_response">开启动态响应</string>
+    <string name="Adj_CpuIdle">调整CpuIdle</string>
+    <string name="New_Uclamp_Strategy">使用新的uclamp策略</string>
+    <string name="search_text">搜索应用名、包名</string>
+    <string name="Disable_Detailed_Log">关闭切换模式日志</string>
+    
+    
+    
+    
     <string-array name="modes">
         <item>powersave</item>
         <item>balance</item>

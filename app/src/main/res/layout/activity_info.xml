@@ -1,92 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".InfoActivity"
-    android:background="#74D362">
+<LinearLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_height="match_parent"
+     android:layout_width="match_parent"
+     android:orientation="vertical"
+     android:fitsSystemWindows="true"
+     tools:context=".InfoActivity">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/app_name"
-        android:textColor="@color/black"
-        android:textSize="36sp"
-        android:textStyle="italic" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0sp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:text="@string/info_f"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
-
-        <TextView
-            android:layout_width="0sp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/author"
-            android:textColor="@color/purple_200"
-            android:textSize="20sp"
-            android:textStyle="italic|bold" />
-    </LinearLayout>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <com.google.android.material.card.MaterialCardView
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:layout_marginEnd="16dp"
+         app:cardBackgroundColor="?attr/colorSecondaryContainer"
+         style="@style/Widget.Material3.CardView.Elevated"
+         android:layout_marginStart="16dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             android:gravity="center_vertical"
+             android:padding="16dp"
+             android:orientation="horizontal">
+
+            <com.google.android.material.card.MaterialCardView
+                 android:layout_height="50dp"
+                 android:layout_width="50dp"
+                 android:layout_marginEnd="16dp"
+                 app:cardCornerRadius="10dp">
+
+                <ImageView
+                     android:layout_height="match_parent"
+                     android:layout_width="match_parent"
+                     android:src="@drawable/logo"
+                     android:scaleType="centerCrop"
+                     android:id="@+id/main_logo" />
+
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="20sp"
-                android:layout_marginTop="15sp"
-                android:text="@string/first_info"
-                android:textColor="@color/black"
-                android:textSize="19sp"
-                android:textStyle="italic" />
+                 android:layout_height="wrap_content"
+                 android:layout_width="wrap_content"
+                 android:textSize="30sp"
+                 android:textStyle="italic|bold"
+                 android:text="@string/app_name" />
+
         </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <ScrollView
+         android:layout_height="0dp"
+         android:layout_width="match_parent"
+         android:layout_weight="1">
+
+        <LinearLayout
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             android:orientation="vertical">
+
+            <com.google.android.material.card.MaterialCardView
+                 android:layout_height="wrap_content"
+                 android:layout_width="match_parent"
+                 android:layout_margin="16dp"
+                 style="@style/Widget.Material3.CardView.Elevated">
+
+                <LinearLayout
+                     android:layout_height="wrap_content"
+                     android:layout_width="match_parent"
+                     android:padding="20dp"
+                     android:orientation="vertical">
+
+                    <TextView
+                         android:layout_height="wrap_content"
+                         android:layout_width="match_parent"
+                         android:gravity="center"
+                         android:textSize="16sp"
+                         android:text="@string/info_f" />
+
+                    <TextView
+                         android:layout_height="wrap_content"
+                         android:layout_width="match_parent"
+                         android:paddingEnd="16dp"
+                         android:gravity="center"
+                         android:textSize="16sp"
+                         android:textColor="@color/purple_200"
+                         android:textStyle="italic|bold"
+                         android:text="@string/author" />
+
+                    <TextView
+                         android:layout_height="wrap_content"
+                         android:layout_width="match_parent"
+                         android:textSize="17sp"
+                         android:textStyle="italic"
+                         android:text="@string/first_info" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
     </ScrollView>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="horizontal">
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:layout_marginBottom="30dp"
+         android:gravity="center"
+         android:orientation="horizontal">
 
         <com.google.android.material.button.MaterialButton
-            android:backgroundTint="#46632c"
-            android:id="@+id/info_refuse"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20sp"
-            android:text="@string/refuse"
-            android:textColor="#74D362"
-            android:textSize="17sp" />
+             android:layout_height="60dp"
+             android:layout_width="150dp"
+             android:layout_marginEnd="20dp"
+             android:elevation="0dp"
+             android:textSize="18sp"
+             android:backgroundTint="?attr/colorSecondaryContainer"
+             android:textColor="?attr/colorOnSecondaryContainer"
+             android:id="@+id/info_refuse"
+             android:text="@string/refuse" />
 
         <com.google.android.material.button.MaterialButton
-            android:backgroundTint="#46632c"
-            android:id="@+id/info_accept"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20sp"
-            android:text="@string/accept"
-            android:textColor="#74D362"
-            android:textSize="17sp" />
+             android:layout_height="60dp"
+             android:layout_width="150dp"
+             android:elevation="0dp"
+             android:textSize="18sp"
+             android:backgroundTint="?attr/colorSecondaryContainer"
+             android:textColor="?attr/colorOnSecondaryContainer"
+             android:layout_marginStart="20dp"
+             android:id="@+id/info_accept"
+             android:text="@string/accept" />
+
     </LinearLayout>
+
 </LinearLayout>

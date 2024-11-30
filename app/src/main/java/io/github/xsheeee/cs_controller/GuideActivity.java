@@ -19,12 +19,12 @@ public class GuideActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide);
         Tools ts = new Tools(getApplicationContext());
-        ts.showToast(String.valueOf(android.os.Process.myPid()));
+//        ts.showToast(String.valueOf(android.os.Process.myPid()));
         if(!ts.getSU())finish();
 //        readFileContent();
 //        ts.showToast(SetOOM.doit()?"true":"false");
         SetOOM.doit();
-        ts.showToast(String.valueOf(android.os.Process.myPid()));
+//        ts.showToast(String.valueOf(android.os.Process.myPid()));
         ts.init();
 
 //        ts.showToast("01");
@@ -34,7 +34,6 @@ public class GuideActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("share", MODE_PRIVATE);
 
 
-        //默认false
         boolean isFirstRun = sharedPreferences.getBoolean("isFirstRun", false);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Values.isFirst = !isFirstRun;
@@ -43,12 +42,12 @@ public class GuideActivity extends AppCompatActivity {
             Intent intent;
             intent = new Intent(GuideActivity.this, InfoActivity.class);
             startActivity(intent);
-            finish(); // 关闭 GuideActivity
+            finish();
         } else {
             Intent intent;
             intent = new Intent(GuideActivity.this, MainActivity.class);
             startActivity(intent);
-            finish(); // 关闭 GuideActivity
+            finish();
         }
 
     }

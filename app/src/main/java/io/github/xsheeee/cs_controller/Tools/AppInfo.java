@@ -4,19 +4,17 @@ import android.graphics.drawable.Drawable;
 
 public class AppInfo {
 
-    private Drawable icon;// 应用图标
-    private String appName;// 应用名称
-    private String packageName;// 包名
+    private Drawable icon; // 应用图标
+    private String appName; // 应用名称
+    private String packageName; // 包名
 
     public AppInfo(Drawable icon, String appName, String packageName) {
-        super();
         this.icon = icon;
         this.appName = appName;
         this.packageName = packageName;
     }
 
     public AppInfo() {
-        super();
     }
 
     public Drawable getIcon() {
@@ -49,4 +47,3 @@ public class AppInfo {
                 + ", packageName=" + packageName + "]";
     }
 }
-

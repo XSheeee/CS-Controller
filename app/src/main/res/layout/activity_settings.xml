@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_height="match_parent"
+     android:layout_width="match_parent"
+     android:orientation="vertical"
+     android:fitsSystemWindows="true"
+     tools:context=".AboutActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         app:title="@string/settings"
+         app:titleCentered="true"
+         app:navigationIcon="@drawable/outline_arrow_back_24"
+         android:id="@+id/backButton5" />
+
+    <ScrollView
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:layout_margin="16dp">
+
+        <LinearLayout
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             android:orientation="vertical">
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                 android:layout_height="wrap_content"
+                 android:layout_width="match_parent"
+                 android:id="@+id/SwitchEnableFeas"
+                 android:text="@string/enable_feas" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                 android:layout_height="wrap_content"
+                 android:layout_width="match_parent"
+                 android:id="@+id/SwitchDisableQcomGpuBoost"
+                 android:text="@string/disable_qcom_gpuboost" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                 android:layout_height="wrap_content"
+                 android:layout_width="match_parent"
+                 android:id="@+id/SwitchCoreAllocation"
+                 android:text="@string/core_allocation" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                 android:layout_height="wrap_content"
+                 android:layout_width="match_parent"
+                 android:id="@+id/SwitchLoadBalancing"
+                 android:text="@string/load_balancing" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                 android:layout_height="wrap_content"
+                 android:layout_width="match_parent"
+                 android:id="@+id/SwitchDisableUfsClockGate"
+                 android:text="@string/disable_ufs_clock_gate" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                 android:layout_height="wrap_content"
+                 android:layout_width="match_parent"
+                 android:id="@+id/SwitchTouchBoost"
+                 android:text="@string/touch_boost" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                 android:layout_height="wrap_content"
+                 android:layout_width="match_parent"
+                 android:id="@+id/SwitchCfsScheduler"
+                 android:text="@string/cfs_scheduler" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                 android:layout_height="wrap_content"
+                 android:layout_width="match_parent"
+                 android:id="@+id/SwitchDynamicResponse"
+                 android:text="@string/dynamic_response" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                 android:layout_height="wrap_content"
+                 android:layout_width="match_parent"
+                 android:id="@+id/SwitchAdjCpuIdle"
+                 android:text="@string/Adj_CpuIdle" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                 android:layout_height="wrap_content"
+                 android:layout_width="match_parent"
+                 android:id="@+id/SwitchNewUclampStrategy"
+                 android:text="@string/New_Uclamp_Strategy" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                 android:layout_height="wrap_content"
+                 android:layout_width="match_parent"
+                 android:id="@+id/SwitchDisableDetailedLog"
+                 android:text="@string/Disable_Detailed_Log" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

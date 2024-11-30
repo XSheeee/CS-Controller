@@ -1,46 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".AppListActivity"
-    android:orientation="vertical">
-    <LinearLayout
-        android:orientation="horizontal"
-        android:background="#46632C"
-        android:gravity="left"
-        android:layout_gravity="left"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/backButton"
-            android:layout_width="0sp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-        android:text="@string/go_back"
-            android:textColor="#74D362"
-            android:textSize="20sp"/>
-        <TextView
-            android:layout_width="0sp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="@string/app_list_title"
-            android:textSize="20sp"
-            android:gravity="right"
-            android:textColor="#74D362"
-            android:textStyle="italic"/>
-    </LinearLayout>
-    <LinearLayout
-        android:background="#74D362"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center|top"
-        android:orientation="vertical">
+<FrameLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_height="match_parent"
+     android:layout_width="match_parent"
+     android:fitsSystemWindows="true"
+     tools:context=".AppListActivity">
 
-        <ListView
-            android:id="@+id/list_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+    <LinearLayout
+         android:layout_height="match_parent"
+         android:layout_width="match_parent"
+         android:orientation="vertical">
+
+        <LinearLayout
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             android:gravity="center_vertical"
+             android:orientation="horizontal">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                 android:layout_height="?attr/actionBarSize"
+                 android:layout_width="match_parent"
+                 app:title="@string/app_list_title"
+                 app:menu="@menu/top_app_bar"
+                 app:titleCentered="true"
+                 app:navigationIcon="@drawable/outline_arrow_back_24"
+                 android:id="@+id/backButton">
+
+
+
+            </com.google.android.material.appbar.MaterialToolbar>
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+             android:layout_height="0dp"
+             android:layout_width="match_parent"
+             android:scrollbars="vertical"
+             android:layout_weight="1"
+             android:id="@+id/recycler_view" />
+
     </LinearLayout>
-</LinearLayout>
+
+    <FrameLayout
+         android:layout_height="match_parent"
+         android:layout_width="match_parent"
+         android:visibility="gone"
+         android:background="@android:color/transparent"
+         android:id="@+id/loading_view">
+
+        <ProgressBar
+             android:layout_height="wrap_content"
+             android:layout_width="wrap_content"
+             android:indeterminate="true"
+             android:scaleX="2"
+             android:scaleY="2"
+             android:layout_gravity="center" />
+
+    </FrameLayout>
+
+</FrameLayout>

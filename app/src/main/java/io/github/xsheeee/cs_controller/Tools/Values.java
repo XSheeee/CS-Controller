@@ -17,11 +17,27 @@ public class Values {
     public static final String pePath = "/sdcard/Android/CSController/performance.txt";
     public static final String faPath = "/sdcard/Android/CSController/fast.txt";
     public static final String spPath = "/sdcard/Android/CSController/super_powersave.txt";
+    public static final String csmodulePath = "/data/adb/modules/MW_CpuSpeedController/module.prop";
+    public static final String csProcess = "/data/adb/modules/MW_CpuSpeedController/system/bin/MW_CpuSpeedController";
+    public static final String csLog = "/storage/emulated/0/Android/MW_CpuSpeedController/log.txt";
+    public static final String csSettings = "/storage/emulated/0/Android/MW_CpuSpeedController/config.ini";
     public static final String balanceName = "balance";
     public static final String powersaveName = "powersave";
     public static final String performanceName = "performance";
     public static final String fastName = "fast";
     public static final String superPowersaveName = "super_powersave";
+    public static String powersaveConfigPath = "/path/to/powersave/config";
+    public static String balanceConfigPath = "/path/to/balance/config";
+    public static String performanceConfigPath = "/path/to/performance/config";
+    public static String fastConfigPath = "/path/to/fast/config";
+    public static String superPowersaveConfigPath = "/path/to/superPowersave/config";
+
+    // 这里定义模式对应的包名列表
+    public static List<String> powersaveList = new ArrayList<>();
+    public static List<String> balanceList = new ArrayList<>();
+    public static List<String> performanceList = new ArrayList<>();
+    public static List<String> fastList = new ArrayList<>();
+    public static List<String> superPowersaveList = new ArrayList<>();
     public static List<String> poList = new ArrayList<>();
     public static List<String> baList = new ArrayList<>();
     public static List<String> peList = new ArrayList<>();
@@ -76,5 +92,3 @@ public class Values {
         }
     }
 }
-
-
